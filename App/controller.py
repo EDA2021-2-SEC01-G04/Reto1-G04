@@ -54,3 +54,9 @@ def loadArtwork(catalog):
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+def Last3Artists(catalog):
+    artists = model.getLast3Artists(catalog)
+    return artists
+def Last3Artworks(catalog):
+    artworks = model.getLast3Artworks(catalog)
+    return artworks
