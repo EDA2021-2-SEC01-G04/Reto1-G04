@@ -36,12 +36,60 @@ los mismos.
 """
 
 # Construccion de modelos
+def newCatalog():
+    catalog = {"artworks": None,
+               "artists": None}
+    catalog["artworks"] = lt.newList("ARRAY_LIST")
+    catalog["artists"] = lt.newList("ARRAY_LIST")
+    return catalog
+
 
 # Funciones para agregar informacion al catalogo
+def addArtwork(catalog,artwork):
+    lt.addLast(catalog["artworks"],artwork)
+    artists = artwork["artists"].split(",")
+    for artist in artists:
+        addArtistOfArtwork(catalog,artist.strip(),artwork)
+
+def addArtistOfArtwork(catalog,artistname,artwork):
+    artists = catalog["artists"]
+    posartist = lt.isPresent(artists,artistname)
+    if posartist > 0:
+        artist = lt.getElement(artists,posartist)
+    else:
+        artist = newArtist(artistname)
+        lt.addLast(artists,artist)
+    lt.addLast(artist["artwork"],artwork)
 
 # Funciones para creacion de datos
+def newArtist(name):
+    artist = {"name":"","artworks":None}
+    artist["name"] = name
+    artist["artworks"] = lt.newList("ARRAY_LIST")
+    return artist
 
 # Funciones de consulta
+def getLast3Artworks(catalog):
+    pos1 = int(lt.size(catalog["artwork"]))
+    pos2 = int(lt.size(catalog["artwork"]))-1
+    pos3 = int(lt.size(catalog["artwork"]))-2
+
+    artwork1 = lt.getElement(catalog["artwork"],pos1)
+    artwork2 = lt.getElement(catalog["artwork"],pos2)
+    artwork3 = lt.getElement(catalog["artwork"],pos3)
+    text = "{0}, {1}, {2}".format(artwork1,artwork2,artwork3)
+    return text
+
+def getLast3Artists(catalog):
+    pos1 = int(lt.size(catalog["artists"]))
+    pos2 = int(lt.size(catalog["artists"]))-1
+    pos3 = int(lt.size(catalog["artists"]))-2
+
+    artist1 = lt.getElement(catalog["artists"],pos1)
+    artist2 = lt.getElement(catalog["artists"],pos2)
+    artist3 = lt.getElement(catalog["artists"],pos3)
+    text = "{0}, {1}, {2}".format(artist1,artist2,artist3)
+    return text
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
