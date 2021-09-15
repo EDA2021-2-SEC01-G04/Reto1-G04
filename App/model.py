@@ -25,6 +25,7 @@
  """
 
 
+from typing import Text
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
@@ -38,28 +39,37 @@ los mismos.
 # Construccion de modelos
 def newCatalog():
     catalog = {"artworks": None,
-               "artists": None}
+               "artists": None,
+               "ID":None}
     catalog["artworks"] = lt.newList("ARRAY_LIST")
     catalog["artists"] = lt.newList("ARRAY_LIST")
+    catalog["ID"] = lt.newList("ARRAY_LIST")
     return catalog
 
 
 # Funciones para agregar informacion al catalogo
 def addArtwork(catalog,artwork):
     lt.addLast(catalog["artworks"],artwork)
-    artists = artwork["artists"].split(",")
-    for artist in artists:
-        addArtistOfArtwork(catalog,artist.strip(),artwork)
+    
+    #for artist in artists:
+        #addArtistOfArtwork(catalog,artist.strip(),artwork)
+       
 
-def addArtistOfArtwork(catalog,artistname,artwork):
+"""def addArtistOfArtwork(catalog,artistname,artwork):
     artists = catalog["artists"]
-    posartist = lt.isPresent(artists,artistname)
+    
+    posartist = compareauthors(artists,artistname
     if posartist > 0:
         artist = lt.getElement(artists,posartist)
     else:
         artist = newArtist(artistname)
         lt.addLast(artists,artist)
-    lt.addLast(artist["artwork"],artwork)
+    lt.addLast(artist["artworks"],artwork)"""
+
+def addArtist(catalog, artist):
+    lt.addLast(catalog["artists"],artist)
+    lt.addLast(catalog["ID"],artist["ConstituentID"])
+    
 
 # Funciones para creacion de datos
 def newArtist(name):
@@ -71,26 +81,43 @@ def newArtist(name):
 # Funciones de consulta
 def getLast3Artworks(catalog):
     pos1 = int(lt.size(catalog["artwork"]))
-    pos2 = int(lt.size(catalog["artwork"]))-1
-    pos3 = int(lt.size(catalog["artwork"]))-2
+    pos2 = int(lt.size(catalog["artwork"]))
+    pos3 = int(lt.size(catalog["artwork"]))
 
-    artwork1 = lt.getElement(catalog["artwork"],pos1)
-    artwork2 = lt.getElement(catalog["artwork"],pos2)
-    artwork3 = lt.getElement(catalog["artwork"],pos3)
+    artwork1 = lt.getElement(catalog["artwork"],1)
+    artwork2 = lt.getElement(catalog["artwork"],2)
+    artwork3 = lt.getElement(catalog["artwork"],3)
     text = "{0}, {1}, {2}".format(artwork1,artwork2,artwork3)
+    text = catalog["artwork"].keys()
     return text
 
 def getLast3Artists(catalog):
-    pos1 = int(lt.size(catalog["artists"]))
-    pos2 = int(lt.size(catalog["artists"]))-1
-    pos3 = int(lt.size(catalog["artists"]))-2
+    pos1 = int(lt.size(catalog["artists"]['elements']))-4
 
-    artist1 = lt.getElement(catalog["artists"],pos1)
-    artist2 = lt.getElement(catalog["artists"],pos2)
-    artist3 = lt.getElement(catalog["artists"],pos3)
+    pos2 = int(lt.size(catalog["artists"]['elements']))-5
+    pos3 = int(lt.size(catalog["artists"]['elements']))-6
+
+    artist1 = lt.getElement(catalog["artists"][1],1)
+    artist2 = lt.getElement(catalog["artists"][1],2)
+    artist3 = lt.getElement(catalog["artists"][1],3)
     text = "{0}, {1}, {2}".format(artist1,artist2,artist3)
     return text
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+def compareauthors(authorname1, author):
+    if (authorname1.lower() in author['ConstituentID'].lower()):
+        return 0
+    return -1
 
+
+def compareratings(book1, book2):
+    return (float(book1['average_rating']) > float(book2['average_rating']))
+
+
+def compareID(ID, ID2):
+    if (id > ID2):
+        return 1
+    elif (id < ID2):
+        return -1
+    return 0
 # Funciones de ordenamiento

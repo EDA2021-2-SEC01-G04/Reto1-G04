@@ -57,9 +57,9 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = initCatalog()
         loadData(catalog)
-        print("Numero de artistas: " + str(lt.size(catalog["autores"])))
-        print("Numero de obras: "+ str(lt.size(catalog["obras"])))
-        print("Ultimos tres elementos de artistas" + controller.Last3Artists + "y de las obras " + controller.Last3Artworks)
+        print("Numero de artistas: " + str(lt.size(catalog["artists"])))
+        print("Numero de obras: "+ str(lt.size(catalog["artworks"])))
+        print("Ultimos tres elementos de artistas" + str(controller.Last3Artists) + "y de las obras " + str(controller.Last3Artworks))
 
 
     elif int(inputs[0]) == 2:
