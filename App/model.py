@@ -27,6 +27,7 @@
 
 from typing import Text
 import config as cf
+import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import insertionsort as insertion
@@ -143,12 +144,29 @@ def sortArtworks(catalog, size):
 
 def sortArtworksByDate(num,catalog):
     if num == 1:
+        start_time = time.process_time()
         insertion.sort(catalog["artworks"])
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg
     elif num == 2:
+        start_time = time.process_time()
         sa.sort(catalog["artworks"])
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg
     elif num == 3:
+        start_time = time.process_time()
         merge.sort(catalog["artworks"])
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg
     elif num == 4:
+        start_time = time.process_time()
         quick.sort(catalog["artworks"])
+        stop_time = time.process_time()
+        elapsed_time_mseg = (stop_time - start_time)*1000
+        return elapsed_time_mseg
+
     else:
         return None

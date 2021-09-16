@@ -46,9 +46,11 @@ def printTypeList():
     print("1- ARRAY_LIST")
     print("2- LINKED_LIST")
 def prinMenuList():
-    print("a cuial de las listas desea realizarle cambios")
-    print("1- artists")
-    print("2- artworks")
+    print("cual de estos sort quiere usar")
+    print("1- insertion")
+    print("2- merges")
+    print("4- quick")
+    print("4- selection")
 
 
 def initCatalog(type_list):
@@ -60,6 +62,8 @@ def loadData(catalog):
 def subList(catalog,muestra):
 
     controller.sortArworks(catalog,muestra)
+def sortArtworksByAcquiringDate(catalog,num):
+    controller.sortArtworksByAcquiringDate(catalog,num)
 
 catalog = None
 
@@ -82,7 +86,11 @@ while True:
 
 
     elif int(inputs[0]) == 2:
-        pass
+        printTypeList
+        num = int(input())
+        time = sortArtworksByAcquiringDate(catalog,num)
+        print("El tiempo (mseg) es: " + str(round(time,3)))
+
     elif int(inputs[0]) == 5:
         muestra = int(input("ingrese el tamañano de la muestra\n"))
         result = subList(catalog,muestra)
