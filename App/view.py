@@ -20,6 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from DISClib.DataStructures.arraylist import size
 import config as cf
 import sys
 import controller
@@ -38,12 +39,27 @@ def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- ")
+    print("5- crear una muestra")
 
-def initCatalog():
-    return controller.initCatalog()
+def printTypeList():
+    print("cual tipo de representación de la lista desea usar")
+    print("1- ARRAY_LIST")
+    print("2- LINKED_LIST")
+def prinMenuList():
+    print("a cuial de las listas desea realizarle cambios")
+    print("1- artists")
+    print("2- artworks")
+
+
+def initCatalog(type_list):
+    return controller.initCatalog(type_list)
 
 def loadData(catalog):
     controller.loadData(catalog)
+
+def subList(catalog,muestra):
+
+    controller.sortArworks(catalog,muestra)
 
 catalog = None
 
@@ -54,16 +70,28 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        printTypeList()
+        type_list = int(input())
         print("Cargando información de los archivos ....")
-        catalog = initCatalog()
+        catalog = initCatalog(type_list)
         loadData(catalog)
         print("Numero de artistas: " + str(lt.size(catalog["artists"])))
         print("Numero de obras: "+ str(lt.size(catalog["artworks"])))
         print("Ultimos tres elementos de artistas" + str(controller.Last3Artists) + "y de las obras " + str(controller.Last3Artworks))
+        print(str(lt.size(catalog["artworks"])))
 
 
     elif int(inputs[0]) == 2:
         pass
+    elif int(inputs[0]) == 5:
+        muestra = int(input("ingrese el tamañano de la muestra\n"))
+        result = subList(catalog,muestra)
+        print("el tamaño de la lista ahora es de " + str(muestra) )
+
+        
+    
+        
+
 
     else:
         sys.exit(0)

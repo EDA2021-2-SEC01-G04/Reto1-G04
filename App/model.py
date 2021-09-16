@@ -37,13 +37,18 @@ los mismos.
 """
 
 # Construccion de modelos
-def newCatalog():
+def newCatalog(type_list):
+    if type_list == 1:
+            type_list = "ARRAY_LIST"
+    else:
+        type_list = "LINKED_LIST"
+
     catalog = {"artworks": None,
                "artists": None,
                "ID":None}
-    catalog["artworks"] = lt.newList("ARRAY_LIST")
-    catalog["artists"] = lt.newList("ARRAY_LIST")
-    catalog["ID"] = lt.newList("ARRAY_LIST")
+    catalog["artworks"] = lt.newList(type_list)
+    catalog["artists"] = lt.newList(type_list)
+    catalog["ID"] = lt.newList(type_list)
     return catalog
 
 
@@ -70,6 +75,9 @@ def addArtist(catalog, artist):
     lt.addLast(catalog["artists"],artist)
     lt.addLast(catalog["ID"],artist["ConstituentID"])
     
+def subList(muestra,catalog):
+    subList = lt.subList(catalog,0,muestra) 
+    return None
 
 # Funciones para creacion de datos
 def newArtist(name):
@@ -80,22 +88,21 @@ def newArtist(name):
 
 # Funciones de consulta
 def getLast3Artworks(catalog):
-    pos1 = int(lt.size(catalog["artwork"]))
-    pos2 = int(lt.size(catalog["artwork"]))
-    pos3 = int(lt.size(catalog["artwork"]))
+    pos1 = int(lt.size(catalog["artworks"]))-4
+    pos2 = int(lt.size(catalog["artworks"]))-5
+    pos3 = int(lt.size(catalog["artworsk"]))-6
 
-    artwork1 = lt.getElement(catalog["artwork"],1)
-    artwork2 = lt.getElement(catalog["artwork"],2)
-    artwork3 = lt.getElement(catalog["artwork"],3)
+    artwork1 = lt.getElement(catalog["artworks"],1)
+    artwork2 = lt.getElement(catalog["artworks"],2)
+    artwork3 = lt.getElement(catalog["artworks"],3)
     text = "{0}, {1}, {2}".format(artwork1,artwork2,artwork3)
     text = catalog["artwork"].keys()
     return text
 
 def getLast3Artists(catalog):
-    pos1 = int(lt.size(catalog["artists"]['elements']))-4
-
-    pos2 = int(lt.size(catalog["artists"]['elements']))-5
-    pos3 = int(lt.size(catalog["artists"]['elements']))-6
+    pos1 = int(lt.size(catalog["artists"]))-4
+    pos2 = int(lt.size(catalog["artists"]))-5
+    pos3 = int(lt.size(catalog["artists"]))-6
 
     artist1 = lt.getElement(catalog["artists"][1],1)
     artist2 = lt.getElement(catalog["artists"][1],2)
@@ -121,3 +128,7 @@ def compareID(ID, ID2):
         return -1
     return 0
 # Funciones de ordenamiento
+def sortArtworks(catalog, size):
+    sub_list = lt.subList(catalog['artworks'], 1, size)
+    sub_list = sub_list.copy()
+    return sub_list
