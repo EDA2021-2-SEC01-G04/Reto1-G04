@@ -20,7 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
-from DISClib.DataStructures.arraylist import size
+
 import config as cf
 import sys
 import controller
@@ -63,7 +63,7 @@ def subList(catalog,muestra):
 
     controller.sortArworks(catalog,muestra)
 def sortArtworksByAcquiringDate(catalog,num):
-    controller.sortArtworksByAcquiringDate(catalog,num)
+    return controller.sortArtworksByAcquiringDate(catalog,num)
 
 catalog = None
 
@@ -86,15 +86,20 @@ while True:
 
 
     elif int(inputs[0]) == 2:
-        printTypeList
+        print("cual de estos sort quiere usar")
+        print("1- insertion")
+        print("2- merges")
+        print("4- quick")
+        print("4- selection")
         num = int(input())
         time = sortArtworksByAcquiringDate(catalog,num)
-        print("El tiempo (mseg) es: " + str(round(time,3)))
+        print("El tiempo (mseg) es: " + str(time))
 
     elif int(inputs[0]) == 5:
         muestra = int(input("ingrese el tamañano de la muestra\n"))
-        result = subList(catalog,muestra)
+        result = controller.sortArtworksByAcquiringDate(catalog,num)
         print("el tamaño de la lista ahora es de " + str(muestra) )
+
 
         
     

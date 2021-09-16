@@ -135,6 +135,13 @@ def compareID(ID, ID2):
     return 0
 
 def cmpArtworkByDateAcquired(artwork1,artwork2):
+    date_1 = artwork1["DateAcquired"]
+    date_2 = artwork2["DateAcquired"]
+    if date_1 < date_2:
+        return True
+    else:
+        return False
+
     pass
 # Funciones de ordenamiento
 def sortArtworks(catalog, size):
@@ -145,28 +152,27 @@ def sortArtworks(catalog, size):
 def sortArtworksByDate(num,catalog):
     if num == 1:
         start_time = time.process_time()
-        insertion.sort(catalog["artworks"])
+        sorted_list=insertion.sort(catalog["artworks"],cmpArtworkByDateAcquired)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
-        return elapsed_time_mseg
+        return elapsed_time_mseg,sorted_list
     elif num == 2:
         start_time = time.process_time()
-        sa.sort(catalog["artworks"])
+        sorted_list=sa.sort(catalog["artworks"],cmpArtworkByDateAcquired)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
-        return elapsed_time_mseg
+        return elapsed_time_mseg,sorted_list
     elif num == 3:
         start_time = time.process_time()
-        merge.sort(catalog["artworks"])
+        sorted_list=merge.sort(catalog["artworks"],cmpArtworkByDateAcquired)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
-        return elapsed_time_mseg
+        return elapsed_time_mseg,sorted_list
     elif num == 4:
         start_time = time.process_time()
-        quick.sort(catalog["artworks"])
+        sorted_list = quick.sort(catalog["artworks"],cmpArtworkByDateAcquired)
         stop_time = time.process_time()
         elapsed_time_mseg = (stop_time - start_time)*1000
-        return elapsed_time_mseg
+        return elapsed_time_mseg,sorted_list
 
-    else:
-        return None
+    
