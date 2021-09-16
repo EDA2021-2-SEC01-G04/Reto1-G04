@@ -56,6 +56,10 @@ def sortArworks(catalog, muestra):
 
     return model.sortArtworks(catalog, muestra)
 
+def sortArtworksByAcquiringDate(catalog,num):
+
+    return model.sortArtworksByDate(catalog,num)
+
 # Funciones de consulta sobre el catálogo
 def Last3Artists(catalog):
     artists = model.getLast3Artists(catalog)
@@ -63,3 +67,6 @@ def Last3Artists(catalog):
 def Last3Artworks(catalog):
     artworks = model.getLast3Artworks(catalog)
     return artworks
+def compare2Artworks(artwork1,artwork2):
+    resultado = model.cmpArtworkByDateAcquired(artwork1,artwork2)
+    return resultado

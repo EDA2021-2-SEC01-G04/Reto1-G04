@@ -29,6 +29,9 @@ from typing import Text
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as insertion
+from DISClib.Algorithms.Sorting import mergesort as merge
+from DISClib.Algorithms.Sorting import quicksort as quick
 assert cf
 
 """
@@ -110,6 +113,8 @@ def getLast3Artists(catalog):
     text = "{0}, {1}, {2}".format(artist1,artist2,artist3)
     return text
 
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareauthors(authorname1, author):
     if (authorname1.lower() in author['ConstituentID'].lower()):
@@ -127,8 +132,23 @@ def compareID(ID, ID2):
     elif (id < ID2):
         return -1
     return 0
+
+def cmpArtworkByDateAcquired(artwork1,artwork2):
+    pass
 # Funciones de ordenamiento
 def sortArtworks(catalog, size):
     sub_list = lt.subList(catalog['artworks'], 1, size)
     sub_list = sub_list.copy()
     return sub_list
+
+def sortArtworksByDate(num,catalog):
+    if num == 1:
+        insertion.sort(catalog["artworks"])
+    elif num == 2:
+        sa.sort(catalog["artworks"])
+    elif num == 3:
+        merge.sort(catalog["artworks"])
+    elif num == 4:
+        quick.sort(catalog["artworks"])
+    else:
+        return None
