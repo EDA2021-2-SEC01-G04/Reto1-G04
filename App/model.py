@@ -53,7 +53,7 @@ def newCatalog(type_list):
                #"ID":None}
     catalog["artworks"] = lt.newList(type_list)
     catalog["artists"] = lt.newList(type_list)
-    catalog["ID"] = lt.newList(type_list,compareauthors)
+    catalog["ID"] = lt.newList(type_list)
     return catalog
 
 
@@ -79,8 +79,29 @@ def addArtwork(catalog,artwork):
 def dateArtists(date1,date2,catalog):
     lst = lt.newList("ARRAY_LIST")
     for artists in lt.iterator(catalog["artists"]):
-        if artists["BeginDate"] >= date1 or artists["BeginDate"] <= date1 :
+        if artists["BeginDate"] >= date1 and artists["BeginDate"] <= date2 :
             lt.addLast(lst,artists)
+    #print (lst)
+
+    lst_sort = sort(lst)
+    #print (lst_sort)
+    return lst_sort
+
+def cmp1(lst,pos):
+    if (lt.getElement(lst, pos))["BeginDate"] < (lt.getElement(lst, pos-1))["BeginDate"]:
+        return True
+    else:
+        return False
+
+def sort(lst):
+    size = lt.size(lst)
+    pos1 = 1
+    while pos1 <= size:
+        pos2 = pos1
+        while (pos2 > 1) and cmp1(lst,pos2):
+            lt.exchange(lst, pos2, pos2-1)
+            pos2 -= 1
+        pos1 += 1
     return lst
 
 

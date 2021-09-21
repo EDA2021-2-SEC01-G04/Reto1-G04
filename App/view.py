@@ -59,7 +59,8 @@ def top10country(countries):
             if dct[cntry] ==  lt.getElement(bst_cntry,j) and j <= 10:
                 print(cntry,lt.getElement(bst_cntry,j))
 
-
+def dateArtists(date1,date2,catalog):
+    return controller.dateArtists(date1,date2,catalog)
 
 def initCatalog(type_list):
     
@@ -105,6 +106,14 @@ while True:
         time = sortArtworksByAcquiringDate(catalog,num)
         print("El tiempo (mseg) es: " + str(time))
     
+    elif int(inputs[0]) == 3:
+        date_1 = input()
+        date_2 = input()
+        result = dateArtists(date_1,date_2,catalog)
+        print(lt.getElement(result,1))
+        print(lt.size(result))
+
+
     elif int(inputs[0]) == 4:
         result = countArtworksbyCountry(catalog)
         top10country(result)

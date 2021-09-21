@@ -40,19 +40,22 @@ def loadData(catalog):
     loadArtwork(catalog)
 
 def loadArtists(catalog):
-    artistfile = cf.data_dir + "MoMA/Artists-utf8-large.csv"
+    artistfile = cf.data_dir + "MoMA/Artists-utf8-small.csv"
     input_file = csv.DictReader(open(artistfile,encoding="utf-8"))
     for artist in input_file:
         model.addArtist(catalog, artist)
 
 def loadArtwork(catalog):
-    artworkfile = cf.data_dir + "MoMA/Artworks-utf8-large.csv"
+    artworkfile = cf.data_dir + "MoMA/Artworks-utf8-small.csv"
     input_file = csv.DictReader(open(artworkfile,encoding="utf-8"))
     for artwork in input_file:
         model.addArtwork(catalog,artwork)
 def countArtworksbyCountry(catalog):
     return model.countArtworksbyCountry(catalog)
 
+
+def dateArtists(date1,date2,catalog):
+    return model.dateArtists(date1,date2,catalog)
 # Funciones de ordenamiento
 def sortArworks(catalog, muestra):
 
