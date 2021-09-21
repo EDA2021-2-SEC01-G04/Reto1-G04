@@ -25,6 +25,7 @@
  """
 
 
+from DISClib.DataStructures.arraylist import newList
 from typing import Text
 import config as cf
 import time
@@ -48,36 +49,59 @@ def newCatalog(type_list):
         type_list = "LINKED_LIST"
 
     catalog = {"artworks": None,
-               "artists": None,
-               "ID":None}
+               "artists": None}
+               #"ID":None}
     catalog["artworks"] = lt.newList(type_list)
     catalog["artists"] = lt.newList(type_list)
-    catalog["ID"] = lt.newList(type_list)
+    catalog["ID"] = lt.newList(type_list,compareauthors)
     return catalog
 
 
 # Funciones para agregar informacion al catalogo
-def addArtwork(catalog,artwork):
-    lt.addLast(catalog["artworks"],artwork)
-    
-    #for artist in artists:
-        #addArtistOfArtwork(catalog,artist.strip(),artwork)
-       
-
-"""def addArtistOfArtwork(catalog,artistname,artwork):
-    artists = catalog["artists"]
-    
-    posartist = compareauthors(artists,artistname
-    if posartist > 0:
-        artist = lt.getElement(artists,posartist)
-    else:
-        artist = newArtist(artistname)
-        lt.addLast(artists,artist)
-    lt.addLast(artist["artworks"],artwork)"""
-
 def addArtist(catalog, artist):
+    artist["artworks"] = lt.newList("ARRAY_LIST")
     lt.addLast(catalog["artists"],artist)
     lt.addLast(catalog["ID"],artist["ConstituentID"])
+
+def addArtwork(catalog,artwork):
+    lt.addLast(catalog["artworks"],artwork)
+    #artists = artwork["ConstituentID"].replace("[", "").replace("]", "").split(",")
+    #for artist in artists:
+        #addArtistOfArtwork(catalog,artist,artwork)
+
+#def addArtistOfArtwork(catalog,artistname,artwork):
+    #artists = catalog["ID"]
+    #de = lt.isPresent(artists,artistname)
+    #for artist in lt.iterator(artists):
+        #if artist["ConstituentID"] == artistname:
+            #lt.addLast(artist["artworks"],artwork["ObjectID"])
+
+def dateArtists(date1,date2,catalog):
+    lst = lt.newList("ARRAY_LIST")
+    for artists in lt.iterator(catalog["artists"]):
+        if artists["BeginDate"] >= date1 or artists["BeginDate"] <= date1 :
+            lt.addLast(lst,artists)
+    return lst
+
+
+def countArtworksbyCountry(catalog):
+    cntry_artwrks = {}
+    lst = lt.newList("ARRAY_LIST")
+    for country in lt.iterator(catalog["artists"]):
+        if len(country["Nationality"]) > 0 and country["Nationality"]:
+            if country["Nationality"] not in cntry_artwrks:
+                cntry_artwrks[country["Nationality"]] = lt.size(country["artworks"])
+            else:
+                cntry_artwrks[country["Nationality"]] += lt.size(country['artworks'])
+    for cntry in cntry_artwrks:
+        number = cntry_artwrks[cntry]
+        lt.addLast(lst,number)
+    lst_sort = (merge.sort(lst,compareID))
+
+
+    return (lst_sort,cntry_artwrks)
+
+
     
 def subList(muestra,catalog):
     subList = lt.subList(catalog,0,muestra) 
@@ -118,7 +142,7 @@ def getLast3Artists(catalog):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareauthors(authorname1, author):
-    if (authorname1.lower() in author['ConstituentID'].lower()):
+    if (authorname1.lower() in author['name'].lower()):
         return 0
     return -1
 
@@ -126,13 +150,18 @@ def compareauthors(authorname1, author):
 def compareratings(book1, book2):
     return (float(book1['average_rating']) > float(book2['average_rating']))
 
+def mayYmenor(lista):
+    size = lt.size(lista)
+
+
+
 
 def compareID(ID, ID2):
-    if (id > ID2):
+    if (ID > ID2):
         return 1
-    elif (id < ID2):
-        return -1
-    return 0
+    elif (ID < ID2):
+        return 0
+    
 
 def cmpArtworkByDateAcquired(artwork1,artwork2):
     date_1 = artwork1["DateAcquired"]

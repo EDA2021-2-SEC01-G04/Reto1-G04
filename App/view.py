@@ -45,25 +45,33 @@ def printTypeList():
     print("cual tipo de representación de la lista desea usar")
     print("1- ARRAY_LIST")
     print("2- LINKED_LIST")
-def prinMenuList():
-    print("cual de estos sort quiere usar")
-    print("1- insertion")
-    print("2- merges")
-    print("4- quick")
-    print("4- selection")
+def countArtworksbyCountry(catalog):
+    return controller.countArtworksbyCountry(catalog)
+def top10country(countries):
+    bst_cntry= countries[0]
+    dct = countries[1]
+    j = 0
+    while j <= 10:
+        j += 1
+        for cntry in dct:
+            if dct[cntry] ==  lt.getElement(bst_cntry,j) and j <= 10:
+                print(cntry,lt.getElement(bst_cntry,j))
+
 
 
 def initCatalog(type_list):
+    
     return controller.initCatalog(type_list)
 
 def loadData(catalog):
     controller.loadData(catalog)
 
 def subList(catalog,muestra):
-
     controller.sortArworks(catalog,muestra)
+
 def sortArtworksByAcquiringDate(catalog,num):
-    return controller.sortArtworksByAcquiringDate(catalog,num)
+    count = controller.sortArtworksByAcquiringDate(catalog,num)
+    return count[0]
 
 catalog = None
 
@@ -94,6 +102,12 @@ while True:
         num = int(input())
         time = sortArtworksByAcquiringDate(catalog,num)
         print("El tiempo (mseg) es: " + str(time))
+    
+    elif int(inputs[0]) == 4:
+        result = countArtworksbyCountry(catalog)
+        top10country(result)
+
+
 
     elif int(inputs[0]) == 5:
         muestra = int(input("ingrese el tamañano de la muestra\n"))
