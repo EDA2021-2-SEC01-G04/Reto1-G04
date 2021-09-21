@@ -36,9 +36,11 @@ operación solicitada
 """
 
 def printMenu():
-    print("Bienvenido")
+    print("Bienvenido, por favor introduzca la opcion que desea: ")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Listar cronologicamente los artistas")
+    print("3- Listar cronologicamente las adquisiciones")
+    print("4- Clasificar las obras de un artista por tecnica")
     print("5- crear una muestra")
 
 def printTypeList():
