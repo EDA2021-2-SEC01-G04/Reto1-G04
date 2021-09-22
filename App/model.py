@@ -76,6 +76,9 @@ def addArtwork(catalog,artwork):
         #if artist["ConstituentID"] == artistname:
             #lt.addLast(artist["artworks"],artwork["ObjectID"])
 
+
+# Punto 1
+
 def dateArtists(date1,date2,catalog):
     lst = lt.newList("ARRAY_LIST")
     for artists in lt.iterator(catalog["artists"]):
@@ -104,7 +107,85 @@ def sort(lst):
         pos1 += 1
     return lst
 
+#Punto 2
+def dateArtworks(date1,date2,catalog):
+    lst = lt.newList("ARRAY_LIST")
+    date1 = date1.split("-")
+    date2 = date2.split("-")
+    for artists in lt.iterator(catalog["artworks"]):
+        fecha = artists["DateAcquired"].split("-")
+        if len(fecha) == 2:
+            fecha.append("01")
+        else:
+            fecha.append("01")
+            fecha.append("01")
 
+        if date1[0] == fecha[0] or date2[0] == fecha[0] and (date1[1] <= fecha[1] and date1[2] <= fecha[2]) and (date2[1] >= fecha[1] and date2[2] >= fecha[2]):
+            lt.addLast(lst,artists)
+        elif (date1[0] < fecha[0] and date2[0] > fecha[0]):
+            lt.addLast(lst,artists)
+
+        else:
+            lt.addLast(lst,artists)
+    lst_sort = sort2(lst)
+    contador = dateArtworksPurchase(lst_sort)
+
+
+    return (lst_sort,contador)
+    
+        
+def cmp2(lst,pos):
+    elemt1 = (lt.getElement(lst,pos)["DateAcquired"]).split("-")
+    elemt2 = (lt.getElement(lst,pos-1)["DateAcquired"]).split("-")
+    if elemt1[0] == elemt2[0] and elemt1[1] < elemt2[1] and  elemt1[2] < elemt2[2]:
+            return True
+    if elemt1[0] < elemt2[0]:
+        return True
+        
+    else:
+        return False
+             
+            
+
+def sort2(lst):
+    size = lt.size(lst)
+    pos1 = 1
+    while pos1 <= size:
+        pos2 = pos1
+        while (pos2 > 1) and cmp2(lst,pos2):
+            lt.exchange(lst, pos2, pos2-1)
+            pos2 -= 1
+        pos1 += 1
+    return lst
+
+def dateArtworksPurchase(lst):
+    contadr = 0
+    for artwork in lt.iterator(lst):
+        if artwork["CreditLine"] == "purchase" or artwork["CreditLine"] == "Purchase":
+            contadr += 1
+    return contadr
+
+def artistsArtwork(pos,lst,catalog):
+    texto = ""
+    artwork = lt.getElement(lst,pos)
+    constId = artwork["ConstituentID"].replace("[", "").replace("]", "").split(",")
+    for Id in constId:
+        nombre_a = nameArtistsId(catalog,Id)
+        texto += (nombre_a + ",") 
+    return texto 
+
+    
+    
+
+def nameArtistsId(catalog,id):
+    for artists in lt.iterator(catalog["artists"]):
+        if id == artists["ConstituentID"]:
+            return artists["DisplayName"]
+
+
+
+
+#Punto 4
 def countArtworksbyCountry(catalog):
     cntry_artwrks = {}
     lst = lt.newList("ARRAY_LIST")

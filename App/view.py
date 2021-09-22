@@ -62,6 +62,13 @@ def top10country(countries):
 def dateArtists(date1,date2,catalog):
     return controller.dateArtists(date1,date2,catalog)
 
+def dateArtworks(date1,date2,catalog):
+    return controller.dateArtworks(date1,date2,catalog)
+
+def artistsArtwork(pos,lst,catalog):
+    return controller.artistsArtwork(pos,lst,catalog)
+
+
 def initCatalog(type_list):
     
     return controller.initCatalog(type_list)
@@ -94,24 +101,35 @@ while True:
         print("Numero de obras: "+ str(lt.size(catalog["artworks"])))
         print("Ultimos tres elementos de artistas" + str(controller.Last3Artists) + "y de las obras " + str(controller.Last3Artworks))
         print(str(lt.size(catalog["artworks"])))
+        
 
-
-    elif int(inputs[0]) == 2:
-        print("cual de estos sort quiere usar")
-        print("1- insertion")
-        print("2- merges")
-        print("4- quick")
-        print("4- selection")
-        num = int(input())
-        time = sortArtworksByAcquiringDate(catalog,num)
-        print("El tiempo (mseg) es: " + str(time))
     
-    elif int(inputs[0]) == 3:
+    elif int(inputs[0]) == 2:
         date_1 = input()
         date_2 = input()
         result = dateArtists(date_1,date_2,catalog)
-        print(lt.getElement(result,1))
-        print(lt.size(result))
+        size = lt.size(result)
+        print("Hay un total de " + str(size) + "entre los años " + date_1 + " y " + date_2)
+        print("Los 3 primeros y ultimos artistas son: ")
+        print("Nombre: " + lt.getElement(result,1)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,1)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,1)["EndDate"],"Nacionalidad: "+ lt.getElement(result,1)["Nationality"],"Genero: "+ lt.getElement(result,1)["Gender"])            
+        print("Nombre: " + lt.getElement(result,2)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,2)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,2)["EndDate"],"Nacionalidad: "+ lt.getElement(result,2)["Nationality"],"Genero: "+ lt.getElement(result,2)["Gender"])
+        print("Nombre: " + lt.getElement(result,3)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,3)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,3)["EndDate"],"Nacionalidad: "+ lt.getElement(result,3)["Nationality"],"Genero: "+ lt.getElement(result,3)["Gender"])
+        print("Nombre: " + lt.getElement(result,size-2)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size-2)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size-2)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size-2)["Nationality"],"Genero: "+ lt.getElement(result,size-2)["Gender"])
+        print("Nombre: " + lt.getElement(result,size-1)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size-1)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size-1)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size-1)["Nationality"],"Genero: "+ lt.getElement(result,size-1)["Gender"])
+        print("Nombre: " + lt.getElement(result,size)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size)["Nationality"],"Genero: "+ lt.getElement(result,size)["Gender"])
+    elif int(inputs[0]) == 3:
+        date_1 = input()
+        date_2 = input()
+        result = dateArtworks(date_1,date_2,catalog)
+        lst = result[0]
+        size = lt.size(result[0])
+        contador = result[1]
+        print("El MoMA adquirio "+ str(size) + " piezas unicas entre " + date_1 + " y " + date_2)
+        print("El numero total de obras adquiridas por Purchase es: " + str(contador))
+        print("Los primeros y ultimos 3 elmentos en el rango determinado son: ")
+        print("Titulo: " + lt.getElement(lst,1)["Title"],"Artistas: " + artistsArtwork(1,lst,catalog),"Fecha: " + lt.getElement(lst,1)["DateAcquired"],"Medio: " + lt.getElement(lst,110)["Medium"],"Dimensiones: " + lt.getElement(lst,1)["Dimensions"])
+
+
 
 
     elif int(inputs[0]) == 4:

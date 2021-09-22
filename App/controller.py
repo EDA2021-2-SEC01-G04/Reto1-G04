@@ -53,9 +53,14 @@ def loadArtwork(catalog):
 def countArtworksbyCountry(catalog):
     return model.countArtworksbyCountry(catalog)
 
-
+# Punto 1
 def dateArtists(date1,date2,catalog):
     return model.dateArtists(date1,date2,catalog)
+# Punto 2
+def dateArtworks(date1,date2,catalog):
+    return model.dateArtworks(date1,date2,catalog)
+def artistsArtwork(pos,lst,catalog):
+    return model.artistsArtwork(pos,lst,catalog)
 # Funciones de ordenamiento
 def sortArworks(catalog, muestra):
 
