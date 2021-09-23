@@ -21,6 +21,7 @@
  """
 
 
+
 import config as cf
 import sys
 import controller
@@ -50,15 +51,14 @@ def printTypeList():
     print("2- LINKED_LIST")
 def countArtworksbyCountry(catalog):
     return controller.countArtworksbyCountry(catalog)
+    
 def top10country(countries):
-    bst_cntry= countries[0]
-    dct = countries[1]
-    j = 0
+    bst_cntry= countries[2]
+    num = countries[1]
+    j = 1
     while j <= 10:
+        print(lt.getElement(bst_cntry,j) +":  "+ str(lt.getElement(num,j)))
         j += 1
-        for cntry in dct:
-            if dct[cntry] ==  lt.getElement(bst_cntry,j) and j <= 10:
-                print(cntry,lt.getElement(bst_cntry,j))
 
 def dateArtists(date1,date2,catalog):
     return controller.dateArtists(date1,date2,catalog)
@@ -142,15 +142,30 @@ while True:
 
 
     elif int(inputs[0]) == 4:
-        result = countArtworksbyCountry(catalog)
-        top10country(result)
+        pass
+        
+        
 
 
 
     elif int(inputs[0]) == 5:
-        muestra = int(input("ingrese el tamañano de la muestra\n"))
-        result = controller.sortArtworksByAcquiringDate(catalog,num)
-        print("el tamaño de la lista ahora es de " + str(muestra) )
+        result = countArtworksbyCountry(catalog)
+        lst_c = result[0]
+        size = lt.size(lst_c)
+        lst_1 = lt.getElement(lst_c,1)
+        lst_2 = lt.getElement(lst_c,2)
+        lst_3 = lt.getElement(lst_c,3)
+        lst_4 = lt.getElement(lst_c,size-3)
+        lst_5 = lt.getElement(lst_c,size-2)
+        lst_6 = lt.getElement(lst_c,size-1)
+        top10country(result)
+        print("Los primeros y ultimos 3 artistas por pais con mas obras: ")
+        print("ID del objeto: " + lt.getElement(lst_1,1)["ObjectID"], " Titulo: " + lt.getElement(lst_1,1)["Title"]," Nombre del artista: " + artistsArtwork(1,lst_1,catalog)," Medio: " + lt.getElement(lst_1,1)["Medium"]," Año: " + lt.getElement(lst_1,1)["Date"]," Dimensiones: " + lt.getElement(lst_1,1)["Dimensions"]," Departamento: " + lt.getElement(lst_1,1)["Department"])          
+        print("ID del objeto: " + lt.getElement(lst_2,1)["ObjectID"], " Titulo: " + lt.getElement(lst_2,1)["Title"]," Nombre del artista: " + artistsArtwork(1,lst_2,catalog)," Medio: " + lt.getElement(lst_2,1)["Medium"]," Año: " + lt.getElement(lst_2,1)["Date"]," Dimensiones: " + lt.getElement(lst_2,1)["Dimensions"]," Departamento: " + lt.getElement(lst_2,1)["Department"])          
+        print("ID del objeto: " + lt.getElement(lst_3,1)["ObjectID"], " Titulo: " + lt.getElement(lst_3,1)["Title"]," Nombre del artista: " + artistsArtwork(1,lst_3,catalog)," Medio: " + lt.getElement(lst_3,1)["Medium"]," Año: " + lt.getElement(lst_3,1)["Date"]," Dimensiones: " + lt.getElement(lst_3,1)["Dimensions"]," Departamento: " + lt.getElement(lst_3,1)["Department"])          
+        print("ID del objeto: " + lt.getElement(lst_4,1)["ObjectID"], " Titulo: " + lt.getElement(lst_4,1)["Title"]," Nombre del artista: " + artistsArtwork(1,lst_4,catalog)," Medio: " + lt.getElement(lst_4,1)["Medium"]," Año: " + lt.getElement(lst_4,1)["Date"]," Dimensiones: " + lt.getElement(lst_4,1)["Dimensions"]," Departamento: " + lt.getElement(lst_4,1)["Department"])          
+        print("ID del objeto: " + lt.getElement(lst_5,1)["ObjectID"], " Titulo: " + lt.getElement(lst_5,1)["Title"]," Nombre del artista: " + artistsArtwork(1,lst_5,catalog)," Medio: " + lt.getElement(lst_5,1)["Medium"]," Año: " + lt.getElement(lst_5,1)["Date"]," Dimensiones: " + lt.getElement(lst_5,1)["Dimensions"]," Departamento: " + lt.getElement(lst_5,1)["Department"])          
+        print("ID del objeto: " + lt.getElement(lst_6,1)["ObjectID"], " Titulo: " + lt.getElement(lst_6,1)["Title"]," Nombre del artista: " + artistsArtwork(1,lst_6,catalog)," Medio: " + lt.getElement(lst_6,1)["Medium"]," Año: " + lt.getElement(lst_6,1)["Date"]," Dimensiones: " + lt.getElement(lst_6,1)["Dimensions"]," Departamento: " + lt.getElement(lst_6,1)["Department"])          
 
     elif int(inputs[0]) == 6:
         department = input("ingrese el nombre del departamento: " )

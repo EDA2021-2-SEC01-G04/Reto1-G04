@@ -67,12 +67,14 @@ def addArtist(catalog, artist):
 
 def addArtwork(catalog,artwork):
     lt.addLast(catalog["artworks"],artwork)
-    #artists = artwork["ConstituentID"].replace("[", "").replace("]", "").split(",")
-    #for artist in artists:
-        #addArtistOfArtwork(catalog,artist,artwork)
+    artists = artwork["ConstituentID"].replace("[", "").replace("]", "").split(",")
+    for artist in artists:
+        addArtistOfArtwork(catalog,artist)
 
-#def addArtistOfArtwork(catalog):
-    #for artist in lt.iterator(catalog["artists"]):
+def addArtistOfArtwork(catalog,artist_id):
+    for artist in lt.iterator(catalog["artists"]):
+        if artist["ConstituentID"] == artist_id:
+            lt.addLast(artist["artworks"],artist_id)
     
 #def artworArstis(id,catalog):
     #ConstituentID
@@ -152,6 +154,7 @@ def nameArtistsId(catalog,id):
 def countArtworksbyCountry(catalog):
     cntry_artwrks = {}
     lst = lt.newList("ARRAY_LIST")
+    lst_p = lt.newList("ARRAY_LIST")
     for country in lt.iterator(catalog["artists"]):
         if len(country["Nationality"]) > 0 and country["Nationality"]:
             if country["Nationality"] not in cntry_artwrks:
@@ -161,11 +164,45 @@ def countArtworksbyCountry(catalog):
     for cntry in cntry_artwrks:
         number = cntry_artwrks[cntry]
         lt.addLast(lst,number)
-    lst_sort = (merge.sort(lst,compareID))
+    lst_sort_num = (merge.sort(lst,compareID))
+    for num in lt.iterator(lst_sort_num):
+        for key in cntry_artwrks:
+            if cntry_artwrks[key] == num:
+                lt.addLast(lst_p,key)
+    national = lt.getElement(lst_p,1) 
+    lst_artist = artisCountry(catalog,national)
+    lst_artist = artworksBycountry(lst_artist,catalog)
+
+    return (lst_artist,lst_sort_num,lst_p,)
 
 
-    return (lst_sort,cntry_artwrks)
 
+
+def artisCountry(catalog,country):
+    lst_country = lt.newList("ARRAY_LIST") 
+    for artist in lt.iterator(catalog["artists"]):
+        if artist["Nationality"] == country:
+            lt.addLast(lst_country,artist)
+    lst_sort = merge.sort(lst_country,compareratings5)
+    return lst_sort
+
+
+def artworksBycountry(lst,catalog):
+    lst_art= lt.newList("ARRAY_LIST")
+    for artist in lt.iterator(lst):
+        lt.addLast(lst_art,addArtworkToList(catalog,artist["ConstituentID"]))
+    return lst_art
+
+def addArtworkToList(catalog,artist_id):
+    lst = lt.newList("ARRAY_LIST")
+    for artwork in lt.iterator(catalog["artworks"]):
+        lst_id = artwork["ConstituentID"].replace("[", "").replace("]", "").split(",")
+        for l in lst_id:
+            if l == artist_id:
+                lt.addLast(lst,artwork)
+                return lst
+    
+        
 
 #Punto 5
 def artworksDepartment(catalog,depart):
@@ -345,7 +382,13 @@ def compareratings4(book1, book2):
         return 0
     else:
         return 1
-
+def compareratings5(book1, book2):
+    date1 = lt.size(book1["artworks"])
+    date2 = lt.size(book2["artworks"])
+    if((date1) < (date2)):
+        return 0
+    else:
+        return 1
 
 def mayYmenor(lista):
     size = lt.size(lista)
