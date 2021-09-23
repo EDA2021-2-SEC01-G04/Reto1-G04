@@ -148,7 +148,52 @@ def nameArtistsId(catalog,id):
         if id == artists["ConstituentID"]:
             return artists["DisplayName"]
 
+#Punto 3
+def countArtworksOfArtistByMedium(name_artist,catalog):
+    ID = ""
+    contador = 0
+    mayor = ""
+    cantidad_mayor = 0
+    c = 0
+    lista_medios = []
+    cantidad_repeticiones = {}
+    lst = lt.newList("ARRAY_LIST")
+    obras_tecnica = lt.newList("ARRAY_LIST")
+    medios = []
 
+    for artist in lt.iterator(catalog["artists"]):
+        if artist["DisplayName"] == name_artist:
+            ID = artist["ConstituentID"]
+    
+    for artwork in lt.iterator(catalog["artworks"]):
+        if ID in artwork["ConstituentID"]:
+            contador += 1
+            lt.addLast(lst,artwork)
+    
+    for artwork in lt.iterator(lst):
+        lista_medios.append(artwork["Medium"])
+    
+    for medio in lista_medios:
+        if medio in cantidad_repeticiones:
+            cantidad_repeticiones[medio] += 1
+        else:
+            cantidad_repeticiones[medio] = 1
+    
+    cantidad_tecnicas = len(cantidad_repeticiones)
+    for medio in cantidad_repeticiones:
+        if medio not in medios:
+            medios.append(medio)
+
+    for medio in cantidad_repeticiones:
+        if cantidad_repeticiones[medio] > c:
+            mayor = medio
+            c = cantidad_repeticiones[medio]
+    for artwork in lt.iterator(lst):
+        if artwork["Medium"] == mayor:
+            lt.addLast(obras_tecnica,artwork)
+    
+
+    return (contador,cantidad_tecnicas,mayor,obras_tecnica,medios)
 
 #Punto 4
 def countArtworksbyCountry(catalog):

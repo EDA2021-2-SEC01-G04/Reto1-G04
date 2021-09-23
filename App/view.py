@@ -44,6 +44,7 @@ def printMenu():
     print("4- Clasificar las obras de un artista por tecnica")
     print("5- crear una muestra")
     print("6- Obras por departamento")
+    print
 
 def printTypeList():
     print("cual tipo de representación de la lista desea usar")
@@ -102,7 +103,6 @@ while True:
         loadData(catalog)
         print("Numero de artistas: " + str(lt.size(catalog["artists"])))
         print("Numero de obras: "+ str(lt.size(catalog["artworks"])))
-        print("Ultimos tres elementos de artistas" + str(controller.Last3Artists) + "y de las obras " + str(controller.Last3Artworks))
         print(str(lt.size(catalog["artworks"])))
         
 
@@ -120,6 +120,7 @@ while True:
         print("Nombre: " + lt.getElement(result,size-2)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size-2)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size-2)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size-2)["Nationality"],"Genero: "+ lt.getElement(result,size-2)["Gender"])
         print("Nombre: " + lt.getElement(result,size-1)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size-1)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size-1)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size-1)["Nationality"],"Genero: "+ lt.getElement(result,size-1)["Gender"])
         print("Nombre: " + lt.getElement(result,size)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size)["Nationality"],"Genero: "+ lt.getElement(result,size)["Gender"])
+        
     elif int(inputs[0]) == 3:
         date_1 = input()
         date_2 = input()
@@ -142,7 +143,21 @@ while True:
 
 
     elif int(inputs[0]) == 4:
-        pass
+        name_artist = str(input("Introduzca el nombre del artista del que desea hacer la busqueda: "))
+        result = controller.artworksOfArtistByMedium(name_artist,catalog)
+        total_obras = result[0]
+        cantidad_tecnicas = result[1]
+        tecnica = result[2]
+        lista = result[3]
+        tecnicas = result[4]
+        print("El numero total de obras encontradas es de: "+ str(total_obras))
+        print("La cantidad de tecnicas utilizadas es de: " + str(cantidad_tecnicas))
+        print("La siguiente lista es el total de tecnicas utilizadas: " + str(tecnicas))
+        print("La tecnica mas utilizada es: " + str(tecnica))
+        print("A continuacion se muestra el listado de obras de la tecnica mas utilizada: ")
+        print("Titulo: " + lt.getElement(lista,1)["Title"] + " Fecha de la obra: " + lt.getElement(lista,1)["Date"] + " Medio: "+ lt.getElement(lista,1)["Medium"] + " Dimensiones: "+ lt.getElement(lista,1)["Dimensions"])
+        print("Titulo: " + lt.getElement(lista,2)["Title"] + " Fecha de la obra: " + lt.getElement(lista,2)["Date"] + " Medio: "+ lt.getElement(lista,2)["Medium"] + " Dimensiones: "+ lt.getElement(lista,2)["Dimensions"])
+        print("Titulo: " + lt.getElement(lista,3)["Title"] + " Fecha de la obra: " + lt.getElement(lista,3)["Date"] + " Medio: "+ lt.getElement(lista,3)["Medium"] + " Dimensiones: "+ lt.getElement(lista,3)["Dimensions"])
         
         
 

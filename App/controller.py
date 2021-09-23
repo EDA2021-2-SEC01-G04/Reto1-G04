@@ -61,7 +61,9 @@ def dateArtworks(date1,date2,catalog):
     return model.dateArtworks(date1,date2,catalog)
 def artistsArtwork(pos,lst,catalog):
     return model.artistsArtwork(pos,lst,catalog)
-
+# Punto 3
+def artworksOfArtistByMedium(name_artist,catalog):
+    return model.countArtworksOfArtistByMedium(name_artist,catalog)
 #Punto 4
 def artworksDepartment(catalog,depart):
     return model.artworksDepartment(catalog,depart)
