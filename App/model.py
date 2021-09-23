@@ -25,6 +25,7 @@
  """
 
 
+from os import terminal_size
 from DISClib.DataStructures.arraylist import newList
 from typing import Text
 import config as cf
@@ -34,6 +35,7 @@ from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import insertionsort as insertion
 from DISClib.Algorithms.Sorting import mergesort as merge
 from DISClib.Algorithms.Sorting import quicksort as quick
+import math as math
 assert cf
 
 """
@@ -69,13 +71,13 @@ def addArtwork(catalog,artwork):
     #for artist in artists:
         #addArtistOfArtwork(catalog,artist,artwork)
 
-#def addArtistOfArtwork(catalog,artistname,artwork):
-    #artists = catalog["ID"]
-    #de = lt.isPresent(artists,artistname)
-    #for artist in lt.iterator(artists):
-        #if artist["ConstituentID"] == artistname:
-            #lt.addLast(artist["artworks"],artwork["ObjectID"])
-
+#def addArtistOfArtwork(catalog):
+    #for artist in lt.iterator(catalog["artists"]):
+    
+#def artworArstis(id,catalog):
+    #ConstituentID
+    #for artwork in lt.iterator(catalog["artworks"]):
+        #if artwork["ConstituentID"]
 
 # Punto 1
 
@@ -86,26 +88,10 @@ def dateArtists(date1,date2,catalog):
             lt.addLast(lst,artists)
     #print (lst)
 
-    lst_sort = sort(lst)
+    lst_sort = merge.sort(lst,compareratings2)
     #print (lst_sort)
     return lst_sort
 
-def cmp1(lst,pos):
-    if (lt.getElement(lst, pos))["BeginDate"] < (lt.getElement(lst, pos-1))["BeginDate"]:
-        return True
-    else:
-        return False
-
-def sort(lst):
-    size = lt.size(lst)
-    pos1 = 1
-    while pos1 <= size:
-        pos2 = pos1
-        while (pos2 > 1) and cmp1(lst,pos2):
-            lt.exchange(lst, pos2, pos2-1)
-            pos2 -= 1
-        pos1 += 1
-    return lst
 
 #Punto 2
 def dateArtworks(date1,date2,catalog):
@@ -114,49 +100,25 @@ def dateArtworks(date1,date2,catalog):
     date2 = date2.split("-")
     for artists in lt.iterator(catalog["artworks"]):
         fecha = artists["DateAcquired"].split("-")
-        if len(fecha) == 2:
-            fecha.append("01")
-        else:
-            fecha.append("01")
-            fecha.append("01")
+        #if len(fecha) == 2:
+            #fecha.append("01")
+        #else:
+            #fecha.append("01")
+            #fecha.append("01")
 
-        if date1[0] == fecha[0] or date2[0] == fecha[0] and (date1[1] <= fecha[1] and date1[2] <= fecha[2]) and (date2[1] >= fecha[1] and date2[2] >= fecha[2]):
+        if (len(fecha) == 3) and (date1[0] == fecha[0] and date1[1] <= fecha[1] ) or (date2[0] == fecha[0] and date2[1] >= fecha[1]):
             lt.addLast(lst,artists)
-        elif (date1[0] < fecha[0] and date2[0] > fecha[0]):
+        elif (len(fecha) == 3) and (date1[0] < fecha[0] and date2[0] > fecha[0]):
             lt.addLast(lst,artists)
 
-        else:
-            lt.addLast(lst,artists)
-    lst_sort = sort2(lst)
+
+
+    lst_sort = merge.sort(lst,compareratings)
     contador = dateArtworksPurchase(lst_sort)
 
 
     return (lst_sort,contador)
     
-        
-def cmp2(lst,pos):
-    elemt1 = (lt.getElement(lst,pos)["DateAcquired"]).split("-")
-    elemt2 = (lt.getElement(lst,pos-1)["DateAcquired"]).split("-")
-    if elemt1[0] == elemt2[0] and elemt1[1] < elemt2[1] and  elemt1[2] < elemt2[2]:
-            return True
-    if elemt1[0] < elemt2[0]:
-        return True
-        
-    else:
-        return False
-             
-            
-
-def sort2(lst):
-    size = lt.size(lst)
-    pos1 = 1
-    while pos1 <= size:
-        pos2 = pos1
-        while (pos2 > 1) and cmp2(lst,pos2):
-            lt.exchange(lst, pos2, pos2-1)
-            pos2 -= 1
-        pos1 += 1
-    return lst
 
 def dateArtworksPurchase(lst):
     contadr = 0
@@ -171,17 +133,18 @@ def artistsArtwork(pos,lst,catalog):
     constId = artwork["ConstituentID"].replace("[", "").replace("]", "").split(",")
     for Id in constId:
         nombre_a = nameArtistsId(catalog,Id)
+    
+        if type(nombre_a) != "str":
+            nombre_a = ""
         texto += (nombre_a + ",") 
     return texto 
 
-    
     
 
 def nameArtistsId(catalog,id):
     for artists in lt.iterator(catalog["artists"]):
         if id == artists["ConstituentID"]:
             return artists["DisplayName"]
-
 
 
 
@@ -204,7 +167,109 @@ def countArtworksbyCountry(catalog):
     return (lst_sort,cntry_artwrks)
 
 
+#Punto 5
+def artworksDepartment(catalog,depart):
+    department = lt.newList("ARRAY_LIST")
+    peso = 0
+    costo_total = 0
+    for artwork in lt.iterator(catalog["artworks"]):
+        if artwork["Weight (kg)"] != "":
+            peso += float(artwork["Weight (kg)"])
     
+        if artwork["Department"] == depart:
+            lt.addLast(department,artwork)
+            artwork["costo"] = costoArtwork(artwork)
+            if  artwork["costo"] != "":
+                costo_total += artwork["costo"]
+        
+        
+    lst_sort_costo = orderCost(department,catalog)
+    lst_sort_date = orderDate(department,catalog)
+    return (lst_sort_costo,lst_sort_date,peso,costo_total)
+
+def orderCost(lst,catalog):
+    lst_sort = merge.sort(lst,compareratings4)
+    uno =("Titulo: " + lt.getElement(lst_sort,1)["Title"]," Artistas: " + artistsArtwork(1,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,1)["Classification"]," Fecha: "+lt.getElement(lst_sort,1)["Date"],"Medio: "+ lt.getElement(lst_sort,1)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,1)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,1)["costo"]))                                                             
+    dos =("Titulo: " + lt.getElement(lst_sort,2)["Title"]," Artistas: " + artistsArtwork(2,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,2)["Classification"]," Fecha: "+lt.getElement(lst_sort,2)["Date"],"Medio: "+ lt.getElement(lst_sort,2)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,2)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,2)["costo"]))                                                             
+    tres =("Titulo: " + lt.getElement(lst_sort,3)["Title"]," Artistas: " + artistsArtwork(3,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,3)["Classification"]," Fecha: "+lt.getElement(lst_sort,3)["Date"],"Medio: "+ lt.getElement(lst_sort,3)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,3)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,3)["costo"]))                                                             
+    cuatro =("Titulo: " + lt.getElement(lst_sort,4)["Title"]," Artistas: " + artistsArtwork(4,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,4)["Classification"]," Fecha: "+lt.getElement(lst_sort,4)["Date"],"Medio: "+ lt.getElement(lst_sort,4)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,4)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,4)["costo"]))                                                             
+    cinco =("Titulo: " + lt.getElement(lst_sort,5)["Title"]," Artistas: " + artistsArtwork(5,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,5)["Classification"]," Fecha: "+lt.getElement(lst_sort,5)["Date"],"Medio: "+ lt.getElement(lst_sort,5)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,5)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,5)["costo"]))                                                             
+
+
+    return (lst_sort,(uno,dos,tres,cuatro,cinco))
+
+def orderDate(lst,catalog):
+    lst_sort = merge.sort(lst,compareratings3)
+    uno =("Titulo: " + lt.getElement(lst_sort,1)["Title"]," Artistas: " + artistsArtwork(1,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,1)["Classification"]," Fecha: "+lt.getElement(lst_sort,1)["Date"],"Medio: "+ lt.getElement(lst_sort,1)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,1)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,1)["costo"]))                                                             
+    dos =("Titulo: " + lt.getElement(lst_sort,2)["Title"]," Artistas: " + artistsArtwork(2,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,2)["Classification"]," Fecha: "+lt.getElement(lst_sort,2)["Date"],"Medio: "+ lt.getElement(lst_sort,2)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,2)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,2)["costo"]))                                                             
+    tres =("Titulo: " + lt.getElement(lst_sort,3)["Title"]," Artistas: " + artistsArtwork(3,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,3)["Classification"]," Fecha: "+lt.getElement(lst_sort,3)["Date"],"Medio: "+ lt.getElement(lst_sort,3)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,3)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,3)["costo"]))                                                             
+    cuatro =("Titulo: " + lt.getElement(lst_sort,4)["Title"]," Artistas: " + artistsArtwork(4,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,4)["Classification"]," Fecha: "+lt.getElement(lst_sort,4)["Date"],"Medio: "+ lt.getElement(lst_sort,4)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,4)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,4)["costo"]))                                                             
+    cinco =("Titulo: " + lt.getElement(lst_sort,5)["Title"]," Artistas: " + artistsArtwork(5,lst_sort,catalog)+ " Clasificacion: " + lt.getElement(lst_sort,5)["Classification"]," Fecha: "+lt.getElement(lst_sort,5)["Date"],"Medio: "+ lt.getElement(lst_sort,5)["Medium"],"Dimensiones: "+lt.getElement(lst_sort,5)["Dimensions"],"Costo trasnporte: "+str(lt.getElement(lst_sort,5)["costo"]))                                                             
+
+    return (lst_sort,(uno,dos,tres,cuatro,cinco))
+
+def costoArtwork(artwork):
+    precio_1 = 0
+    precio_2 = 0
+    precio_3 = 0
+    precio_4 = 0
+    precio_5 = 0
+    precio = 0
+
+    if artwork["Dimensions"] != "":
+        if artwork["Circumference (cm)"] != "" and artwork["Diameter (cm)"] == "":
+            r = (float(artwork["Circumference (cm)"]))/(math.pi*2)
+            if  artwork["Depth (cm)"] != "":
+                depht = (float(artwork["Depth (cm)"]))/100
+                precio_1 = ((math.pi * r**2)* depht)/72
+                
+            else:
+                precio_1 =  (math.pi * r**2)/72
+                
+        elif artwork["Diameter (cm)"] != "":
+            r = (float(artwork["Diameter (cm)"]))/2
+            if  artwork["Depth (cm)"] != "":
+                depht = (float(artwork["Depth (cm)"]))/100
+                precio_2= ((math.pi * r**2)* depht)/72
+                
+            else:
+                precio_2 = (math.pi * r**2)/72
+                
+        if artwork["Weight (kg)"] != "":
+            precio_3 = (float(artwork["Weight (kg)"]))/72
+
+        if  artwork["Length (cm)"] != "" and artwork["Height (cm)"] != "":
+            if artwork["Width (cm)"] != "":
+                precio_4 = (float(artwork["Length (cm)"]))*(float(artwork["Height (cm)"]))*(float(artwork["Width (cm)"]))
+            else:
+                precio_4 = (float(artwork["Length (cm)"]))*(float(artwork["Height (cm)"]))
+        
+        if  artwork["Length (cm)"] == "" and artwork["Height (cm)"] != "":
+            if artwork["Width (cm)"] != "":
+                precio_4 = (float(artwork["Height (cm)"]))*(float(artwork["Width (cm)"]))/72
+        
+        
+        
+        if  artwork["Length (cm)"] != "" and artwork["Height (cm)"] == "":
+            if artwork["Width (cm)"] != "":
+                precio_4 = (float(artwork["Length (cm)"]))*(float(artwork["Width (cm)"]))/72
+        
+
+    else:
+        precio_5 = 42
+        
+    precio = max(precio_1,precio_2,precio_4,precio_3,precio_5)
+    if precio == 0:
+        precio = 42
+    return precio
+
+
+
+
+
+
+
+
 def subList(muestra,catalog):
     subList = lt.subList(catalog,0,muestra) 
     return None
@@ -244,18 +309,46 @@ def getLast3Artists(catalog):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareauthors(authorname1, author):
-    if (authorname1.lower() in author['name'].lower()):
+    if (authorname1["DateAcquired"].lower() in author['DateAcquired'].lower()):
         return 0
     return -1
 
 
 def compareratings(book1, book2):
-    return (float(book1['average_rating']) > float(book2['average_rating']))
+    date1 = book1["DateAcquired"]
+    date2 = book2["DateAcquired"]
+    if((date1) < (date2)):
+        return 1
+    #elif (date1) > (date2):
+        #return -1
+    else:
+        return 0
+def compareratings2(book1, book2):
+    date1 = book1["BeginDate"]
+    date2 = book2["BeginDate"]
+    if((date1) < (date2)):
+        return 1
+    else:
+        return 0
+
+def compareratings3(book1, book2):
+    date1 = book1["Date"]
+    date2 = book2["Date"]
+    if((date1) < (date2)):
+        return 1
+    else:
+        return 0
+def compareratings4(book1, book2):
+    date1 = book1["costo"]
+    date2 = book2["costo"]
+    if((date1) < (date2)):
+        return 0
+    else:
+        return 1
+
 
 def mayYmenor(lista):
     size = lt.size(lista)
-
-
 
 
 def compareID(ID, ID2):
@@ -272,8 +365,7 @@ def cmpArtworkByDateAcquired(artwork1,artwork2):
         return True
     else:
         return False
-
-    pass
+    
 # Funciones de ordenamiento
 def sortArtworks(catalog, size):
     sub_list = lt.subList(catalog['artworks'], 1, size)

@@ -42,6 +42,7 @@ def printMenu():
     print("3- Listar cronologicamente las adquisiciones")
     print("4- Clasificar las obras de un artista por tecnica")
     print("5- crear una muestra")
+    print("6- Obras por departamento")
 
 def printTypeList():
     print("cual tipo de representación de la lista desea usar")
@@ -68,6 +69,8 @@ def dateArtworks(date1,date2,catalog):
 def artistsArtwork(pos,lst,catalog):
     return controller.artistsArtwork(pos,lst,catalog)
 
+def artworksDepartment(catalog,depart):
+    return controller.artworksDepartment(catalog,depart)
 
 def initCatalog(type_list):
     
@@ -122,12 +125,18 @@ while True:
         date_2 = input()
         result = dateArtworks(date_1,date_2,catalog)
         lst = result[0]
-        size = lt.size(result[0])
+        size = lt.size(lst)
         contador = result[1]
         print("El MoMA adquirio "+ str(size) + " piezas unicas entre " + date_1 + " y " + date_2)
         print("El numero total de obras adquiridas por Purchase es: " + str(contador))
         print("Los primeros y ultimos 3 elmentos en el rango determinado son: ")
-        print("Titulo: " + lt.getElement(lst,1)["Title"],"Artistas: " + artistsArtwork(1,lst,catalog),"Fecha: " + lt.getElement(lst,1)["DateAcquired"],"Medio: " + lt.getElement(lst,110)["Medium"],"Dimensiones: " + lt.getElement(lst,1)["Dimensions"])
+        print("Titulo: " + lt.getElement(lst,1)["Title"],"Artistas: " + artistsArtwork(1,lst,catalog),"Fecha: " + lt.getElement(lst,1)["DateAcquired"],"Medio: " + lt.getElement(lst,1)["Medium"],"Dimensiones: " + lt.getElement(lst,1)["Dimensions"])
+        print("Titulo: " + lt.getElement(lst,2)["Title"],"Artistas: " + artistsArtwork(2,lst,catalog),"Fecha: " + lt.getElement(lst,2)["DateAcquired"],"Medio: " + lt.getElement(lst,2)["Medium"],"Dimensiones: " + lt.getElement(lst,2)["Dimensions"])
+        print("Titulo: " + lt.getElement(lst,3)["Title"],"Artistas: " + artistsArtwork(3,lst,catalog),"Fecha: " + lt.getElement(lst,3)["DateAcquired"],"Medio: " + lt.getElement(lst,3)["Medium"],"Dimensiones: " + lt.getElement(lst,3)["Dimensions"])
+        print("Titulo: " + lt.getElement(lst,size-2)["Title"],"Artistas: " + artistsArtwork(size-2,lst,catalog),"Fecha: " + lt.getElement(lst,size-2)["DateAcquired"],"Medio: " + lt.getElement(lst,size-2)["Medium"],"Dimensiones: " + lt.getElement(lst,size-2)["Dimensions"])
+        print("Titulo: " + lt.getElement(lst,size-1)["Title"],"Artistas: " + artistsArtwork(size-1,lst,catalog),"Fecha: " + lt.getElement(lst,size-1)["DateAcquired"],"Medio: " + lt.getElement(lst,size-1)["Medium"],"Dimensiones: " + lt.getElement(lst,size-1)["Dimensions"])
+        print("Titulo: " + lt.getElement(lst,size)["Title"],"Artistas: " + artistsArtwork(size,lst,catalog),"Fecha: " + lt.getElement(lst,size)["DateAcquired"],"Medio: " + lt.getElement(lst,size)["Medium"],"Dimensiones: " + lt.getElement(lst,size)["Dimensions"])
+
 
 
 
@@ -142,6 +151,33 @@ while True:
         muestra = int(input("ingrese el tamañano de la muestra\n"))
         result = controller.sortArtworksByAcquiringDate(catalog,num)
         print("el tamaño de la lista ahora es de " + str(muestra) )
+
+    elif int(inputs[0]) == 6:
+        department = input("ingrese el nombre del departamento: " )
+        result = artworksDepartment(catalog,department)
+        lst_dt = result[1][1]
+        lst_cst = result[0][1]
+        total = result[0][0]
+        size = lt.size(total)
+        precio = result[3]
+        peso = result[2]
+        print("El total de obras transportadas son: "+ str(size) )
+        print("El peso estiamdo de todas las obras fue de: " + str(peso))
+        print("El precio estimado del envio fue de: "+str(precio))
+        print("el top 5 obras mas costosas es: ")
+        print(lst_cst[0])
+        print(lst_cst[1])
+        print(lst_cst[2])
+        print(lst_cst[3])
+        print(lst_cst[4])
+        print("el top 5 obras mas antiguas es: ")
+        print(lst_dt[0])
+        print(lst_dt[1])
+        print(lst_dt[2])
+        print(lst_dt[3])
+        print(lst_dt[4])
+
+
 
 
         
