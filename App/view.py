@@ -42,9 +42,8 @@ def printMenu():
     print("2- Listar cronologicamente los artistas")
     print("3- Listar cronologicamente las adquisiciones")
     print("4- Clasificar las obras de un artista por tecnica")
-    print("5- crear una muestra")
+    print("5- Clasificar las obras por la nacionalidad de sus creadores")
     print("6- Obras por departamento")
-    print
 
 def printTypeList():
     print("cual tipo de representación de la lista desea usar")
@@ -120,7 +119,7 @@ while True:
         print("Nombre: " + lt.getElement(result,size-2)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size-2)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size-2)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size-2)["Nationality"],"Genero: "+ lt.getElement(result,size-2)["Gender"])
         print("Nombre: " + lt.getElement(result,size-1)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size-1)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size-1)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size-1)["Nationality"],"Genero: "+ lt.getElement(result,size-1)["Gender"])
         print("Nombre: " + lt.getElement(result,size)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size)["Nationality"],"Genero: "+ lt.getElement(result,size)["Gender"])
-        
+
     elif int(inputs[0]) == 3:
         date_1 = input()
         date_2 = input()
