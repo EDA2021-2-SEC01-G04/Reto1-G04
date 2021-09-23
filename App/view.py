@@ -107,8 +107,8 @@ while True:
 
     
     elif int(inputs[0]) == 2:
-        date_1 = input()
-        date_2 = input()
+        date_1 = input("Introduzca el año desde del que quiere hacer el filtro: ")
+        date_2 = input("Introduzca el año hasta donde quiere hacer el filtro: ")
         result = dateArtists(date_1,date_2,catalog)
         size = lt.size(result)
         print("Hay un total de " + str(size) + "entre los años " + date_1 + " y " + date_2)
@@ -121,8 +121,8 @@ while True:
         print("Nombre: " + lt.getElement(result,size)["DisplayName"],"Fecha de nacimiento: " + lt.getElement(result,size)["BeginDate"],"Fecha de muerte: "+ lt.getElement(result,size)["EndDate"],"Nacionalidad: "+ lt.getElement(result,size)["Nationality"],"Genero: "+ lt.getElement(result,size)["Gender"])
 
     elif int(inputs[0]) == 3:
-        date_1 = input()
-        date_2 = input()
+        date_1 = input("Introduzca la fecha desde del que quiere hacer el filtro: ")
+        date_2 = input("Introduzca la fecha hasta donde quiere hacer el filtro: ")
         result = dateArtworks(date_1,date_2,catalog)
         lst = result[0]
         size = lt.size(lst)
@@ -205,14 +205,6 @@ while True:
         print(lst_dt[2])
         print(lst_dt[3])
         print(lst_dt[4])
-
-
-
-
-        
-    
-        
-
 
     else:
         sys.exit(0)
